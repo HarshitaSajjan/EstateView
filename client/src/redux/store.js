@@ -11,14 +11,14 @@ const persistConfig={
     version:1,
 }
 
-const persistedReducer  = persistedReducer(persistConfig, rootReducer);
+const persistedReducer  = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,
   }),
 });
 
 
-export const persistor = persiststore(store);
+export const persistor = persistStore(store);
