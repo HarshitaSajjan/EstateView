@@ -7,16 +7,26 @@ import cookieParser from 'cookie-parser';
 import listingRouter from './routes/listing.route.js'
 dotenv.config();
 import cors from 'cors';
+import { status_header } from './utils/error.js';
+(async () => {
+    const corsConfig = await import('./cors.json', { assert: { type: 'json' } });
+});
+
+
+
 mongoose.connect(process.env.MONGO).then(() => {
     console.log('Connected to MongoDB');
 }).catch((err) => {
-    console.log(err);
+    console.log(err)
 });
 
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:3000"
+}));
 app.use(express.json());
-app.use(cors());
+
 
 app.use(cookieParser());
 app.listen(3000, ()=>{
@@ -37,3 +47,5 @@ app.use((err, req, res, next)=>{
         message,
     });
 });
+
+status_header(200);

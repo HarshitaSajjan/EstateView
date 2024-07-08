@@ -4,3 +4,7 @@ export const errorHandler = (statusCode, message)=>{
     error.esage = message
     return error;
 }
+
+export const status_header = (statusCode) => {
+    return { status: statusCode };
+};
