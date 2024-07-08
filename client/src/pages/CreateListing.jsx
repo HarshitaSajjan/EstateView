@@ -217,13 +217,12 @@ export default function CreateListing() {
                 <p className='text-red-700 text-sm'>
                    {imageUploadError && imageUploadError}
                 </p>
-                {formData.imageUrls.length > 0 && formData.imageUrls.map((urls, index) => {
+                {formData.imageUrls.length > 0 && formData.imageUrls.map((urls, index) => (
                         <div key={urls} className='flex justify-between p-3 border items-center'>
                             <img src={urls} alt="listing image" className='w-20 h-20 object-contain rounded-lg' />
                             <button type='button' onClick={() => handleRemoveImage(index)} className='p-3 text-red-700 rounded-lg uppercase hover:opacity-95'>Delete</button>
                         </div>
-                    })
-                }
+                ))}
                     <button disabled={loading|| uploading} className='p-3 bg-slate-700 text-white rounded-lg uppercase
                 hover:opacity-95 disabled:opacity-80'>{loading ? 'Creating...' : 'Create Listing'}</button>
                 
