@@ -43,7 +43,7 @@ export default function CreateListing() {
             setImageUploadError(false);
             setUploading(false);
         })
-        .catch((err) =>{
+        .catch((error) =>{
             setImageUploadError('Image upload failed (2 mb max per image)');
             setUploading(false);
         });
@@ -209,7 +209,7 @@ export default function CreateListing() {
                     <span className='font-normal text-gray-600 ml-2'>The first image will be the cover(max 6)</span>
                 </p>
                 <div className='flex gap-4'>
-                    <input onChange={(e) => setFiles(e.target.files)} className='p-3 border border-gray-300 rounded w-full' type='file' id='images' accept='image/*' multiple/>
+                    <input onChange={(e) => setFiles(e.target.files)} className='p-3 border border-gray-300 rounded w-full' type='file' id='images' accept='image/*' multiple />
                     <button disabled={uploading} type='button' onClick={handleImageSubmit} className='p-3 text-green-700 border border-green-700 rounded uppercase hover: shadow-lg disabled:placeholder-opacity-80'>
                     {uploading ? 'Uploading..' : 'Upload'}
                     </button>
