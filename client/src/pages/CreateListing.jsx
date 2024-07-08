@@ -22,6 +22,7 @@ export default function CreateListing() {
         parking: false,
         furnished: false,
     });
+    console.log(formData);
     const [imageUploadError, setImageUploadError] = useState(false);    
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(false);
@@ -42,7 +43,7 @@ export default function CreateListing() {
             setImageUploadError(false);
             setUploading(false);
         })
-        .catch((error) =>{
+        .catch((err) =>{
             setImageUploadError('Image upload failed (2 mb max per image)');
             setUploading(false);
         });
@@ -58,7 +59,7 @@ export default function CreateListing() {
             const storageRef = ref(storage, fileName);
             const uploadTask = uploadBytesResumable(storageRef, file);
             uploadTask.on(
-                'state_changed', 
+                "state_changed", 
                 (snapshot) => {
                     const progress =
                       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -186,14 +187,18 @@ export default function CreateListing() {
                         <input type='number' id='regularPrice' min='50' max='10000000' required className='p-3 border border-gray-300 rounded-lg'                 onChange={handleChange} value={formData.regularPrice}/>
                         <div>
                            <p>Regular Price</p>
-                           <span className='text-xs'>($ / months)</span> 
+                           {formData.type === 'rent' && (
+                                <span className='text-xs'>($ / month)</span>
+                            )}                        
                         </div>                        
                     </div>
                     {formData.offer &&( <div className='flex items-center gap-2'>
                         <input type='number' id='discountPrice' min='3' max='10' required className='p-3 border border-gray-300 rounded-lg'                   onChange={handleChange} value={formData.discountPrice}/>
                         <div className='flex flex-col items-center'>
                            <p>Discounted Price</p>
-                           <span className='text-xs'>($ / months)</span> 
+                           {formData.type === 'rent' && (
+                                <span className='text-xs'>($ / month)</span>
+                            )}                        
                         </div>
                     </div>
                       )}
@@ -204,7 +209,7 @@ export default function CreateListing() {
                     <span className='font-normal text-gray-600 ml-2'>The first image will be the cover(max 6)</span>
                 </p>
                 <div className='flex gap-4'>
-                    <input onChange={(e) => setFiles(Array.from(e.target.files))} className='p-3 border border-gray-300 rounded w-full' type='file' id='images' accept='image/*' multiple/>
+                    <input onChange={(e) => setFiles(e.target.files)} className='p-3 border border-gray-300 rounded w-full' type='file' id='images' accept='image/*' multiple/>
                     <button disabled={uploading} type='button' onClick={handleImageSubmit} className='p-3 text-green-700 border border-green-700 rounded uppercase hover: shadow-lg disabled:placeholder-opacity-80'>
                     {uploading ? 'Uploading..' : 'Upload'}
                     </button>
@@ -212,10 +217,10 @@ export default function CreateListing() {
                 <p className='text-red-700 text-sm'>
                    {imageUploadError && imageUploadError}
                 </p>
-                {formData.imageUrls.length > 0 && formData.imageUrls.map((url_, index) => {
-                        <div key={url_} className='flex justify-between p-3 border items-center'>
-                            <img src={url_} alt='listing image' className='w-20 h-20 object-contain rounded-lg' />
-                            <button type='button' onClick={ () => handleRemoveImage(index)} className='p-3 text-red-700 rounded-lg uppercase hover:opacity-95'>Delete</button>
+                {formData.imageUrls.length > 0 && formData.imageUrls.map((urls, index) => {
+                        <div key={urls} className='flex justify-between p-3 border items-center'>
+                            <img src={urls} alt="listing image" className='w-20 h-20 object-contain rounded-lg' />
+                            <button type='button' onClick={() => handleRemoveImage(index)} className='p-3 text-red-700 rounded-lg uppercase hover:opacity-95'>Delete</button>
                         </div>
                     })
                 }
